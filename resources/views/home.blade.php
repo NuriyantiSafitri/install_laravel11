@@ -116,3 +116,22 @@
     </div>
 </body>
 </html>
+
+
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h2>Halaman Message</h2>
+
+    @if(isset($message))
+        <p><strong>Pesan kamu:</strong> {{ $message }}</p>
+    @else
+        <p>Tidak ada pesan dikirim.</p>
+    @endif
+
+    <a href="{{ route('form') }}">Kembali ke Form</a>
+</body>
+</html>
+
