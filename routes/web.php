@@ -4,8 +4,26 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ArticleController;
 
-// ✅ Route Form dan Kirim Pesan
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// ✅ Halaman utama → redirect ke /home
+Route::get('/', function () {
+    return redirect()->route('home');
+});
+
+// ✅ Route Home
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+// ✅ Route Resource untuk Artikel (CRUD)
+Route::resource('articles', ArticleController::class);
+
+// ✅ Route Form Latihan
 Route::get('/form', function () {
     return view('form');
 })->name('form');
@@ -15,28 +33,16 @@ Route::post('/submit', function (Request $request) {
     return view('home', ['message' => $message]);
 })->name('submit');
 
-// ✅ route ke controller HomeController
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-
-// ✅ route register
+// ✅ Auth Routes
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
-// ✅ redirect root ke /home
-Route::get('/', function () {
-    return redirect('/home');
-});
-
-// ✅ route logout
-Route::get('/logout', function (Request $request) {
-    $request->session()->flush(); // hapus semua session
-    return redirect('/login');    // kembali ke halaman login
-})->name('logout');
-
-// ✅ route login
 Route::get('/login', function () {
     return view('login');
-}
-)->name('login');
+})->name('login');
 
+// ✅ Logout Route
+Route::get('/logout', function (Request $request) {
+    $request->session()->flush();
+    return redirect()->route('login');
+})->name('logout');
