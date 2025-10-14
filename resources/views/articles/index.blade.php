@@ -1,44 +1,44 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Artikel')
+@section('title', 'Daftar Produk Fashion')
 
 @section('content')
-    <div class="d-flex justify-content-between mb-3">
-        <h1>Daftar Artikel</h1>
-        <a href="{{ route('articles.create') }}" class="btn btn-primary">+ Tambah Artikel</a>
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h4 mb-0">Daftar Produk Fashion</h2>
+      <a href="#" class="btn btn-success btn-sm">+ Tambah Produk</a>
     </div>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Judul</th>
-                <th>Excerpt</th>
-                <th>Publikasi</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($articles as $article)
-            <tr>
-                <td>{{ $article->title }}</td>
-                <td>{{ $article->excerpt }}</td>
-                <td>{{ $article->is_published ? 'Ya' : 'Tidak' }}</td>
-                <td>
-                    <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                    <form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Yakin hapus?')" class="btn btn-sm btn-danger">Hapus</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th style="width:60px">No</th>
+          <th>Nama Produk</th>
+          <th>Excerpt</th>
+          <th style="width:120px">Published</th>
+          <th style="width:140px">Tanggal</th>
+          <th style="width:160px">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($articles as $i => $article)
+          <tr>
+            <td>{{ $i + 1 }}</td>
+            <td>{{ $article['title'] }}</td>
+            <td>{{ $article['excerpt'] }}</td>
+            <td>{{ $article['is_published'] ? 'Ya' : 'Tidak' }}</td>
+            <td>{{ $article['created_at'] }}</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-warning">Edit</a>
+              <a href="#" class="btn btn-sm btn-danger">Hapus</a>
+            </td>
+          </tr>
+        @empty
+          <tr><td colspan="6" class="text-center">Belum ada data.</td></tr>
+        @endforelse
+      </tbody>
     </table>
-
-    {{ $articles->links() }}
+  </div>
+</div>
 @endsection

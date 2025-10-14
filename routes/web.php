@@ -4,7 +4,17 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ProductController;
+
+Route::get('/', function () {
+    return redirect()->route('products.create');
+});
+
+Route::get('/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
+
+
 
 /*
 |--------------------------------------------------------------------------
